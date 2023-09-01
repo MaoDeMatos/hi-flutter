@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -33,15 +34,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    // System bars
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.light.copyWith(
+        // Top bar
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
+        // Bottom bar
+        systemNavigationBarColor: Colors.transparent,
+      ),
+    );
+
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Flutter first app',
+        title: 'Word generator app',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
+          colorScheme:
+              ColorScheme.fromSeed(seedColor: Color.fromRGBO(234, 148, 147, 1)),
           useMaterial3: true,
         ),
         home: MyHomePage(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
@@ -57,30 +73,52 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget page;
-    switch (selectedIndex) {
-      case 0:
-        page = GeneratorPage();
-        break;
-      case 1:
-        page = FavoritesPage();
-        break;
-      default:
-        throw UnimplementedError('no widget for $selectedIndex');
-    }
+    var theme = Theme.of(context);
+    var pages = <Widget>[
+      GeneratorPage(),
+      FavoritesPage(),
+      ListView.builder(
+        itemCount: 50,
+        itemBuilder: (context, index) => SizedBox(
+          height: 100,
+          child: Card(
+            color: index % 2 == 0
+                ? theme.colorScheme.tertiaryContainer
+                : theme.colorScheme.primary,
+            child: Center(
+              child: Text(
+                '${index + 1}',
+                style: theme.textTheme.headlineMedium!.copyWith(
+                  color: index % 2 == 0
+                      ? theme.colorScheme.onTertiaryContainer
+                      : theme.colorScheme.onPrimary,
+                ),
+              ),
+            ),
+          ),
+        ),
+      )
+    ];
 
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        extendBody: true,
         body: Row(
           children: [
             SafeArea(
+              top: false,
+              bottom: false,
               child: NavigationRail(
+                groupAlignment: 0,
                 extended: constraints.maxWidth >= 600,
                 destinations: [
                   NavigationRailDestination(
                       icon: Icon(Icons.home), label: Text("Home")),
                   NavigationRailDestination(
                       icon: Icon(Icons.favorite), label: Text("Favorites")),
+                  NavigationRailDestination(
+                      icon: Icon(Icons.list), label: Text("Test list")),
                 ],
                 selectedIndex: selectedIndex,
                 onDestinationSelected: (value) {
@@ -91,10 +129,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Expanded(
-                child: Container(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              child: page,
-            ))
+              child: AnimatedSwitcher(
+                duration: Duration(milliseconds: 200),
+                child: pages[selectedIndex],
+              ),
+            )
           ],
         ),
       );
