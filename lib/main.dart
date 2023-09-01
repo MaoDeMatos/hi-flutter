@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +35,14 @@ class MyAppState extends ChangeNotifier {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  static final _defaultLightColorScheme = ColorScheme.fromSeed(
+    seedColor: Color.fromRGBO(234, 148, 147, 1),
+  );
+  static final _defaultDarkColorScheme = ColorScheme.fromSeed(
+    seedColor: Color.fromRGBO(234, 148, 147, 1),
+    brightness: Brightness.dark,
+  );
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -42,8 +51,14 @@ class MyApp extends StatelessWidget {
       SystemUiOverlayStyle.light.copyWith(
         // Top bar
         statusBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.dark,
-        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness:
+            MediaQuery.of(context).platformBrightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark,
+        statusBarIconBrightness:
+            MediaQuery.of(context).platformBrightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark,
         // Bottom bar
         systemNavigationBarColor: Colors.transparent,
       ),
@@ -51,16 +66,23 @@ class MyApp extends StatelessWidget {
 
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'Word generator app',
-        theme: ThemeData(
-          colorScheme:
-              ColorScheme.fromSeed(seedColor: Color.fromRGBO(234, 148, 147, 1)),
-          useMaterial3: true,
-        ),
-        home: MyHomePage(),
-        debugShowCheckedModeBanner: false,
-      ),
+      child: DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
+        return MaterialApp(
+          title: 'Word generator app',
+          home: MyHomePage(),
+          // Color theme options
+          themeMode: ThemeMode.system,
+          theme: ThemeData(
+            colorScheme: lightColorScheme ?? _defaultLightColorScheme,
+            useMaterial3: true,
+          ),
+          darkTheme: ThemeData(
+            colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
+            useMaterial3: true,
+          ),
+          debugShowCheckedModeBanner: false,
+        );
+      }),
     );
   }
 }
