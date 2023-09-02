@@ -37,10 +37,10 @@ class WordGeneratorApp extends StatelessWidget {
   static const _title = 'Word generator app';
 
   static final _defaultLightColorScheme = ColorScheme.fromSeed(
-    seedColor: Color.fromRGBO(234, 148, 147, 1),
+    seedColor: const Color.fromRGBO(234, 148, 147, 1),
   );
   static final _defaultDarkColorScheme = ColorScheme.fromSeed(
-    seedColor: Color.fromRGBO(234, 148, 147, 1),
+    seedColor: const Color.fromRGBO(234, 148, 147, 1),
     brightness: Brightness.dark,
   );
 
@@ -65,7 +65,7 @@ class WordGeneratorApp extends StatelessWidget {
       child: DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
         return MaterialApp(
           title: _title,
-          home: MyHomePage(),
+          home: const MyHomePage(),
           // Color theme options
           themeMode: ThemeMode.system,
           theme: ThemeData(

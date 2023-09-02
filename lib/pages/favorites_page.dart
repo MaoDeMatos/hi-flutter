@@ -4,12 +4,14 @@ import 'package:provider/provider.dart';
 import '/main.dart';
 
 class FavoritesPage extends StatelessWidget {
+  const FavoritesPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<GlobalState>();
 
     if (appState.favorites.isEmpty) {
-      return Center(
+      return const Center(
         child: Text('No favorites yet.'),
       );
     }
@@ -24,7 +26,7 @@ class FavoritesPage extends StatelessWidget {
         ),
         for (var word in appState.favorites)
           ListTile(
-            leading: Icon(Icons.favorite),
+            leading: const Icon(Icons.favorite),
             title: Text(word.asLowerCase),
           ),
       ],

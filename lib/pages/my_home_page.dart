@@ -19,13 +19,15 @@ const navDestinationsData = [
 ];
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   var _selectedIndex = 0;
-  _changePage(int index) {
+  void _changePage(int index) {
     setState(() {
       _selectedIndex = index;
     });
@@ -47,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       var largeScreenContent = Expanded(
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(24),
             bottomLeft: Radius.circular(24),
           ),
@@ -96,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     destinations: navDestinationsData
                         .map(
                           (element) => NavigationRailDestination(
-                            padding: EdgeInsets.symmetric(vertical: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 8),
                             icon: Icon(element.icon),
                             selectedIcon: Icon(element.selectedIcon),
                             label: Text(element.label),
@@ -135,16 +137,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _renderMainContent() {
     return AnimatedSwitcher(
-      duration: Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 400),
       switchInCurve: Curves.easeInOutCubic,
       switchOutCurve: Curves.easeInOutCubic,
       child: () {
         switch (_selectedIndex) {
           case 0:
-            return GeneratorPage();
+            return const GeneratorPage();
 
           case 1:
-            return FavoritesPage();
+            return const FavoritesPage();
 
           case 2:
             return ListView.builder(

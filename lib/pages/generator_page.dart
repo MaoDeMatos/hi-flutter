@@ -5,6 +5,8 @@ import '/main.dart';
 import '/components/word_card.dart';
 
 class GeneratorPage extends StatelessWidget {
+  const GeneratorPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<GlobalState>();
@@ -19,7 +21,7 @@ class GeneratorPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           WordCard(pair: pair),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -28,14 +30,14 @@ class GeneratorPage extends StatelessWidget {
                   appState.toggleFavorite();
                 },
                 icon: Icon(icon),
-                label: Text('Like'),
+                label: const Text('Like'),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               ElevatedButton(
                 onPressed: () {
                   appState.generatePair();
                 },
-                child: Text('Next'),
+                child: const Text('Next'),
               ),
             ],
           ),
