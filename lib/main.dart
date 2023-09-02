@@ -2,34 +2,12 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:english_words/english_words.dart';
 
+import '/global_state.dart';
 import '/pages/my_home_page.dart';
 
 void main() {
   runApp(const WordGeneratorApp());
-}
-
-class GlobalState extends ChangeNotifier {
-  // Current word
-  var current = WordPair.random();
-
-  void generatePair() {
-    current = WordPair.random();
-    notifyListeners();
-  }
-
-  // Favorite words
-  var favorites = <WordPair>{};
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
-  }
 }
 
 class WordGeneratorApp extends StatelessWidget {
