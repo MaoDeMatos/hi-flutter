@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:word_generator/main.dart';
-import 'package:word_generator/components/word_card.dart';
+import '/main.dart';
+import '/components/word_card.dart';
 
 class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    var appState = context.watch<GlobalState>();
     var pair = appState.current;
 
     var icon = appState.favorites.contains(pair)

@@ -4,13 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:english_words/english_words.dart';
 
-import 'package:word_generator/pages/my_home_page.dart';
+import '/pages/my_home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const WordGeneratorApp());
 }
 
-class MyAppState extends ChangeNotifier {
+class GlobalState extends ChangeNotifier {
   // Current word
   var current = WordPair.random();
 
@@ -32,8 +32,9 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class WordGeneratorApp extends StatelessWidget {
+  const WordGeneratorApp({super.key});
+  static const _title = 'Word generator app';
 
   static final _defaultLightColorScheme = ColorScheme.fromSeed(
     seedColor: Color.fromRGBO(234, 148, 147, 1),
@@ -45,30 +46,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     // System bars
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.light.copyWith(
-        // Top bar
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    if (MediaQuery.of(context).platformBrightness == Brightness.light) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
-        statusBarBrightness:
-            MediaQuery.of(context).platformBrightness == Brightness.dark
-                ? Brightness.light
-                : Brightness.dark,
-        statusBarIconBrightness:
-            MediaQuery.of(context).platformBrightness == Brightness.dark
-                ? Brightness.light
-                : Brightness.dark,
-        // Bottom bar
         systemNavigationBarColor: Colors.transparent,
-      ),
-    );
+      ));
+    } else {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
+      ));
+    }
 
     return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
+      create: (context) => GlobalState(),
       child: DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
         return MaterialApp(
-          title: 'Word generator app',
+          title: _title,
           home: MyHomePage(),
           // Color theme options
           themeMode: ThemeMode.system,

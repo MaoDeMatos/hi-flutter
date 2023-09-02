@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:word_generator/pages/favorites_page.dart';
-import 'package:word_generator/pages/generator_page.dart';
+import '/pages/favorites_page.dart';
+import '/pages/generator_page.dart';
 
 const navDestinationsData = [
   (icon: Icons.home_outlined, selectedIcon: Icons.home, label: "Home"),
@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var theme = Theme.of(context);
 
     return LayoutBuilder(builder: (context, constraints) {
-      var isMobile = constraints.maxWidth <= 600;
+      var isSmallScreen = constraints.maxWidth <= 600;
 
       var smallScreenContent = Expanded(
         child: Container(
@@ -46,16 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
       );
 
       var largeScreenContent = Expanded(
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(4),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(24)),
-              child: Container(
-                color: theme.colorScheme.secondaryContainer,
-                child: _renderMainContent(),
-              ),
-            ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24),
+            bottomLeft: Radius.circular(24),
+          ),
+          child: Container(
+            color: theme.colorScheme.secondaryContainer,
+            child: _renderMainContent(),
           ),
         ),
       );
@@ -65,23 +63,23 @@ class _MyHomePageState extends State<MyHomePage> {
       return Scaffold(
         // extendBodyBehindAppBar: true,
         extendBody: true,
-        drawer: !isMobile
-            ? NavigationDrawer(
-                selectedIndex: _selectedIndex,
-                tilePadding: EdgeInsets.symmetric(vertical: 8),
-                onDestinationSelected: _changePage,
-                children: navDestinationsData
-                    .map(
-                      (element) => NavigationDrawerDestination(
-                        icon: Icon(element.icon),
-                        selectedIcon: Icon(element.selectedIcon),
-                        label: Text(element.label),
-                      ),
-                    )
-                    .toList(),
-              )
-            : null,
-        body: isMobile
+        // drawer: isMobile
+        //     ? null
+        //     : NavigationDrawer(
+        //         selectedIndex: _selectedIndex,
+        //         tilePadding: EdgeInsets.symmetric(vertical: 8),
+        //         onDestinationSelected: _changePage,
+        //         children: navDestinationsData
+        //             .map(
+        //               (element) => NavigationDrawerDestination(
+        //                 icon: Icon(element.icon),
+        //                 selectedIcon: Icon(element.selectedIcon),
+        //                 label: Text(element.label),
+        //               ),
+        //             )
+        //             .toList(),
+        //       ),
+        body: isSmallScreen
             ? Column(
                 children: [
                   smallScreenContent,
@@ -109,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   largeScreenContent,
                 ],
               ),
-        bottomNavigationBar: isMobile
+        bottomNavigationBar: isSmallScreen
             ? ClipRRect(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
