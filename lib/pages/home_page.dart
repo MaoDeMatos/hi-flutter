@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '/pages/favorites_page.dart';
 import '/pages/generator_page.dart';
+import '/pages/favorites_page.dart';
+import '/pages/settings_page.dart';
 
 const navDestinationsData = [
   (icon: Icons.home_outlined, selectedIcon: Icons.home, label: "Home"),
@@ -10,7 +11,6 @@ const navDestinationsData = [
     selectedIcon: Icons.favorite,
     label: "Favorites"
   ),
-  (icon: Icons.list, selectedIcon: Icons.list, label: "Test list"),
   (
     icon: Icons.settings_outlined,
     selectedIcon: Icons.settings,
@@ -18,14 +18,14 @@ const navDestinationsData = [
   ),
 ];
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   var _selectedIndex = 0;
   void _changePage(int index) {
     setState(() {
@@ -149,18 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
             return const FavoritesPage();
 
           case 2:
-            return ListView.builder(
-              itemCount: 50,
-              itemBuilder: (context, index) => SizedBox(
-                height: 75,
-                child: Card(
-                  color: index % 2 == 0 ? Colors.pink[900] : Colors.red[800],
-                  child: Center(
-                    child: Text('${index + 1}'),
-                  ),
-                ),
-              ),
-            );
+            return const SettingsPage();
 
           default:
             return Center(

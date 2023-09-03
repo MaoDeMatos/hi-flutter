@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '/global_state.dart';
-import '/pages/my_home_page.dart';
+import '/pages/home_page.dart';
 
 void main() {
   runApp(const WordGeneratorApp());
@@ -43,7 +43,7 @@ class WordGeneratorApp extends StatelessWidget {
       child: DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
         return MaterialApp(
           title: _title,
-          home: const MyHomePage(),
+          home: const HomePage(),
           // Color theme options
           themeMode: ThemeMode.system,
           theme: ThemeData(
