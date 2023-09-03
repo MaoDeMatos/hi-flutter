@@ -3,30 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '/global_state.dart';
+import '/state/theme_state.dart';
+import '/state/global_state.dart';
 import '/pages/home_page.dart';
 
 void main() {
-  runApp(const WordGeneratorApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ThemeState(),
+    child: const WordGeneratorApp(),
+  ));
 }
 
 class WordGeneratorApp extends StatelessWidget {
   const WordGeneratorApp({super.key});
   static const _title = 'Word generator app';
 
-  static final _defaultLightColorScheme = ColorScheme.fromSeed(
-    seedColor: const Color.fromRGBO(234, 148, 147, 1),
-  );
-  static final _defaultDarkColorScheme = ColorScheme.fromSeed(
-    seedColor: const Color.fromRGBO(234, 148, 147, 1),
-    brightness: Brightness.dark,
-  );
-
   @override
   Widget build(BuildContext context) {
+    var themeState = context.watch<ThemeState>();
+    var currentThemeMode = themeState.getThemeMode();
+    var isUsingUserPalette = themeState.getIsUsingUserPalette();
+
     // System bars
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    if (MediaQuery.of(context).platformBrightness == Brightness.light) {
+    if ((currentThemeMode == ThemeMode.system &&
+            MediaQuery.of(context).platformBrightness == Brightness.light) ||
+        currentThemeMode == ThemeMode.light) {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: Colors.transparent,
@@ -38,25 +40,29 @@ class WordGeneratorApp extends StatelessWidget {
       ));
     }
 
-    return ChangeNotifierProvider(
-      create: (context) => GlobalState(),
-      child: DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
-        return MaterialApp(
-          title: _title,
-          home: const HomePage(),
-          // Color theme options
-          themeMode: ThemeMode.system,
-          theme: ThemeData(
-            colorScheme: lightColorScheme ?? _defaultLightColorScheme,
-            useMaterial3: true,
-          ),
-          darkTheme: ThemeData(
-            colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
-            useMaterial3: true,
-          ),
-          debugShowCheckedModeBanner: false,
-        );
-      }),
-    );
+    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
+      return MaterialApp(
+        title: _title,
+        home: ChangeNotifierProvider(
+          create: (context) => GlobalState(),
+          child: const HomePage(),
+        ),
+        // Color theme options
+        themeMode: currentThemeMode,
+        theme: ThemeData(
+          colorScheme: isUsingUserPalette
+              ? lightColorScheme ?? defaultLightColorScheme
+              : defaultLightColorScheme,
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          colorScheme: isUsingUserPalette
+              ? darkColorScheme ?? defaultDarkColorScheme
+              : defaultDarkColorScheme,
+          useMaterial3: true,
+        ),
+        debugShowCheckedModeBanner: false,
+      );
+    });
   }
 }

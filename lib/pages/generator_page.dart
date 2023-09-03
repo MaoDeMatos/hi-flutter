@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/global_state.dart';
+import '/state/global_state.dart';
 import '/components/word_card.dart';
 
+// TODO: Add `AnimatedList` with words history
+// TODO: Change styles of the word and main action button
 class GeneratorPage extends StatelessWidget {
   const GeneratorPage({super.key});
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/global_state.dart';
+import '/state/global_state.dart';
 
+// TODO: Update list style
 class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});
 
@@ -18,11 +19,8 @@ class FavoritesPage extends StatelessWidget {
 
     return ListView(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text(
-            "You have ${appState.favorites.length} favorites:",
-          ),
+        ListTile(
+          title: Text("You have ${appState.favorites.length} favorites:"),
         ),
         for (var word in appState.favorites)
           ListTile(
