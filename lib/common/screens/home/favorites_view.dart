@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/state/global_state.dart';
+import '../../state/global_state.dart';
 
 // TODO: Update list style
 class FavoritesPage extends StatelessWidget {

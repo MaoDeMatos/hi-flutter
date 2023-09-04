@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/state/theme_state.dart';
+import '../../state/theme_state.dart';
 
 // TODO: Export this in a separate file
 extension StringCasingExtension on String {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/services/storage_manager.dart';
+import '../services/storage_manager.dart';
 
 final defaultLightColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 188, 147, 234),

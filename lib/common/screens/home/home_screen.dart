@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '/pages/generator_page.dart';
-import '/pages/favorites_page.dart';
-import '/pages/settings_page.dart';
+import 'favorites_view.dart';
+import 'generator_view.dart';
+import 'settings_view.dart';
 
 const navDestinationsData = [
   (icon: Icons.home_outlined, selectedIcon: Icons.home, label: "Home"),
@@ -18,14 +18,14 @@ const navDestinationsData = [
   ),
 ];
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<Home> createState() => _HomeState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeState extends State<Home> {
   var _selectedIndex = 0;
   void _changePage(int index) {
     setState(() {
